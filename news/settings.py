@@ -16,9 +16,11 @@ NEWSPIDER_MODULE = 'news.spiders'
 
 ITEM_PIPELINES = {'news.pipelines.NewsPipeline':100}
 
-DOWNLOADER_MIDDLEWARES = {
-     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 100
-}
+
+
+
+
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'quotesbot (+http://www.yourdomain.com)'
 

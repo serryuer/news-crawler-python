@@ -1,78 +1,61 @@
 # -*- coding: utf-8 -*-
-import scrapy
-import re
 
-from news.tools.timeconvert import DateFormat
-from news.items import NewsItem
+from news.spiders.basespider import *
 
-
-def filter_str(str):
-    return str.replace(' ', '').replace('\n', '').replace('\t', '').replace('\xa0', '').replace('\u3000', '').replace('\r', '') \
-        .replace('[]', '')
-
-
-def ListCombine(lst):
-    if len(lst) == 0:
-        return None
-    string = ""
-    for e in lst:
-        if e:
-            string += e
-    return filter_str(string)
 
 # 新华网
-class XinHuaSpider(scrapy.Spider):
+class XinHuaSpider(BaseSpider):
     name = "XinHuaNet"
     start_urls = [
         'http://m.xinhuanet.com/gdxw/index.htm',
     ]
+    filter_path = "bloom-filter-backup/xinhua.bloom"
 
-    def __init__(self):
-        self.is_home_page = True
-        super(XinHuaSpider, self).__init__()
+    def parse_home_page(self, response):
+        content_list = response.xpath("//*[@id='data']/li")
+        links = []
+        for li in content_list:
+            news_link = ""
+            try:
+                news_link = li.xpath(".//div[2]/h3/a/@href").extract()[0]
 
-    def parse(self, response):
-        if self.is_home_page:
-            self.is_home_page = False
-            content_list = response.xpath("//*[@id='data']/li")
-            for li in content_list:
-                news_link = ""
-                try:
-                    news_link = li.xpath(".//div[2]/h3/a/@href").extract()[0]
-                    # news_link = "http://" + news_link[0][2:]
-                except BaseException:
+                if self.filter.add(news_link):
                     continue
-                else:
-                    yield scrapy.Request(news_link)
-        else:
-            item = NewsItem()
-            time_str = response.xpath("/html/body/div[4]/div[2]/div[4]/div[2]/div/div[2]/span[1]/span/text()").extract()
-            if len(time_str) == 0:
-                time_str = response.xpath("/html/body/div[3]/div[2]/div/div[2]/span[1]/span/text()").extract()
-            if len(time_str) == 0:
-                time_str = response.xpath("/html/body/div[2]/div[3]/div/div[2]/span[1]/text()").extract()
-            if len(time_str) == 0:
-                time_str = response.xpath("/html/body/div[2]/div[3]/div/div[2]/span[1]/text()").extract()
-            time = DateFormat.convertStandardDateFormat(time_str[0])
-            if time is None:
-                return
-            item['url'] = response.url
-            item['publish_time'] = time
-            item['source'] = 'XinHuaNet'
-            contents = ListCombine(response.xpath('//*[@id="p-detail"]/p/text()').extract())
-            if not contents:
-                contents = ListCombine(response.xpath('//*[@id="p-detail"]/div[1]/p/text()').extract())
-            item['contents'] = contents
-            title_str = response.xpath("/html/body/div[2]/div[3]/div/div[1]/text()").extract()
-            if len(title_str) == 0:
-                title_str = response.xpath("/html/body/div[4]/div[2]/div[4]/div[2]/div/div[1]/text()").extract()
-            if len(title_str) == 0:
-                title_str = response.xpath("/html/body/div[3]/div[2]/div/div[1]/text()").extract()
-            if len(title_str) == 0:
-                title_str = response.xpath("/html/body/div[3]/div[2]/div/div[1]/text()").extract()
-            title = filter_str(title_str[0])
-            item['title'] = title
-            yield item
+            except BaseException:
+                continue
+            else:
+                links.append(news_link)
+        return links
+
+    def parse_article_page(self, response):
+        item = NewsItem()
+        time_str = response.xpath("/html/body/div[4]/div[2]/div[4]/div[2]/div/div[2]/span[1]/span/text()").extract()
+        if len(time_str) == 0:
+            time_str = response.xpath("/html/body/div[3]/div[2]/div/div[2]/span[1]/span/text()").extract()
+        if len(time_str) == 0:
+            time_str = response.xpath("/html/body/div[2]/div[3]/div/div[2]/span[1]/text()").extract()
+        if len(time_str) == 0:
+            time_str = response.xpath("/html/body/div[2]/div[3]/div/div[2]/span[1]/text()").extract()
+        time = DateFormat.convertStandardDateFormat(time_str[0])
+        if time is None:
+            return
+        item['url'] = response.url
+        item['publish_time'] = time
+        item['source'] = 'XinHuaNet'
+        contents = combine_contents_list(response.xpath('//*[@id="p-detail"]/p/text()').extract())
+        if not contents:
+            contents = combine_contents_list(response.xpath('//*[@id="p-detail"]/div[1]/p/text()').extract())
+        item['contents'] = contents
+        title_str = response.xpath("/html/body/div[2]/div[3]/div/div[1]/text()").extract()
+        if len(title_str) == 0:
+            title_str = response.xpath("/html/body/div[4]/div[2]/div[4]/div[2]/div/div[1]/text()").extract()
+        if len(title_str) == 0:
+            title_str = response.xpath("/html/body/div[3]/div[2]/div/div[1]/text()").extract()
+        if len(title_str) == 0:
+            title_str = response.xpath("/html/body/div[3]/div[2]/div/div[1]/text()").extract()
+        title = filter_str(title_str[0])
+        item['title'] = title
+        return item
 
 
 if __name__ == "__main__":
@@ -85,6 +68,4 @@ if __name__ == "__main__":
 
     d = runner.crawl(XinHuaSpider)
     d.addBoth(lambda _: reactor.stop())
-    reactor.run() # the script will block here until the crawling is finished
-
-
+    reactor.run()  # the script will block here until the crawling is finished

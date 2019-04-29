@@ -12,4 +12,5 @@ class NewsPipeline(object):
 
 
 
+
         return item
