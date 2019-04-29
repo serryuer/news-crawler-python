@@ -1,43 +1,36 @@
-# QuotesBot
-This is a Scrapy project to scrape quotes from famous people from http://quotes.toscrape.com ([github repo](https://github.com/scrapinghub/spidyquotes)).
+# News-Crawler
+爬取各大新闻网站滚动新闻页面的最新新闻
 
-This project is only meant for educational purposes.
+# 环境
 
+**Ubuntu/Python3.***
 
-## Extracted data
+- 安装mysql
+```
+sudo apt-get install mysql-server
+```
 
-This project extracts quotes, combined with the respective author names and tags.
-The extracted data looks like this sample:
+- 安装anaconda
+```
+curl -O https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh
+sh Anaconda3-5.2.0-Linux-x86_64.sh
+```
 
-    {
-        'author': 'Douglas Adams',
-        'text': '“I may not have gone where I intended to go, but I think I ...”',
-        'tags': ['life', 'navigation']
-    }
+- 创建环境
+```
+conda create -n crawler python=3.6
+```
 
+- 安装python依赖
+```
+source activate crawler
+pip install -r requirements.txt
+```
 
-## Spiders
-
-This project contains two spiders and you can list them using the `list`
-command:
-
-    $ scrapy list
-    toscrape-css
-    toscrape-xpath
-
-Both spiders extract the same data from the same website, but `toscrape-css`
-employs CSS selectors, while `toscrape-xpath` employs XPath expressions.
-
-You can learn more about the spiders by going through the
-[Scrapy Tutorial](http://doc.scrapy.org/en/latest/intro/tutorial.html).
+## 数据格式
 
 
-## Running the spiders
 
-You can run a spider using the `scrapy crawl` command, such as:
+## 启动
 
-    $ scrapy crawl toscrape-css
 
-If you want to save the scraped data to a file, you can pass the `-o` option:
-    
-    $ scrapy crawl toscrape-css -o quotes.json

@@ -47,6 +47,7 @@ class EastMoneySpider(BaseSpider):
         item['title'] = title
         return item
 
+
 if __name__ == "__main__":
     from twisted.internet import reactor
     from scrapy.crawler import CrawlerRunner

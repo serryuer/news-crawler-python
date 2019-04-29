@@ -18,7 +18,6 @@ class XinHuaSpider(BaseSpider):
             news_link = ""
             try:
                 news_link = li.xpath(".//div[2]/h3/a/@href").extract()[0]
-
                 if self.filter.add(news_link):
                     continue
             except BaseException:

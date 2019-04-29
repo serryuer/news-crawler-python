@@ -16,9 +16,11 @@ NEWSPIDER_MODULE = 'news.spiders'
 
 ITEM_PIPELINES = {'news.pipelines.NewsPipeline':100}
 
-
-
-
+# 数据库配置
+DB_IP = "localhost"
+DB_USERNAME = "root"
+DB_PASSWD = "822104"
+DB_DATABASE = "spider"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
