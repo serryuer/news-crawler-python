@@ -1,4 +1,5 @@
 create database spider;
+use spider;
 CREATE TABLE `articles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -7,4 +8,4 @@ CREATE TABLE `articles` (
   `publish_time` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `source_site` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-  }
+)

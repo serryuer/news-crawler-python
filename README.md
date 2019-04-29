@@ -1,5 +1,5 @@
 # News-Crawler
-爬取各大新闻网站滚动新闻页面的最新新闻
+爬取各大新闻网站滚动新闻页面的最新新闻，每次只爬去最新的一页数据，可以使用外部定时器定时重复增量爬取最新数据。
 
 # 环境
 
@@ -32,13 +32,31 @@ conda create -n crawler python=3.6
 - 安装python依赖
 ```
 source activate crawler
-pip install -r requirements.txt
+conda install --yes --file requirements.txt
 ```
 
-## 数据格式
+## 文件结构
+- bloom-filter-backup: 用于保存布隆过滤器的数据，实现增量采集
+- log： 日志文件夹
+- news： 采集主文件夹
+  - spiders： 每个网站的采集程序
+    - basespider.py: 爬虫父类
+    - **spider.py: 各网站爬虫实现
+  - tools： 时间格式化、布隆过滤器实现
+  - items.py: 新闻实体的封装
+  - pipelines.py: 采集、解析出的新闻实体的处理，包括存储和建立索引
+  - run.py: 单次运行
+  - settings.py: 爬虫配置文件
+- db.sql: 数据库结构
+- requirements.txt: 依赖
+- schedule_crawler.sh: 对单次运行的封装，用于调度执行采集程序
 
 
 
 ## 启动
+单次爬取新闻数据
+```
+python run.py
+```
 
 
