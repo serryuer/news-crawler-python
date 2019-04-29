@@ -9,6 +9,14 @@
 ```
 sudo apt-get install mysql-server
 ```
+- 修改$settings.py$文件中数据库相关配置
+```
+# 数据库配置
+DB_IP = "localhost"
+DB_USERNAME = "root"
+DB_PASSWD = "822104"
+DB_DATABASE = "spider"
+```
 
 - 安装anaconda
 ```
