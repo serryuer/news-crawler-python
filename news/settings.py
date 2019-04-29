@@ -22,6 +22,9 @@ DB_USERNAME = "root"
 DB_PASSWD = "822104"
 DB_DATABASE = "spider"
 
+# 索引存储位置配置
+INDEX_FILE_PATH = "index_files"
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'quotesbot (+http://www.yourdomain.com)'

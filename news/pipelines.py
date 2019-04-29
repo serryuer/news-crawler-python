@@ -8,6 +8,11 @@
 import pymysql
 from scrapy.conf import settings
 
+from news.tools.index import Index
+
+import os
+import datetime
+
 
 class NewsPipeline(object):
 
@@ -15,6 +20,12 @@ class NewsPipeline(object):
         self.db = pymysql.connect(settings.get("DB_IP"), settings.get("DB_USERNAME"), settings.get("DB_PASSWD"),
                                   settings.get("DB_DATABASE"), charset='utf8')
         self.cursor = self.db.cursor()
+        self.date_format = "%Y-%m-%d %H:%M:%S"
+        self.index = Index()
+
+    # 添加新闻到索引
+    def add_to_index(self, item):
+        self.index.add_document(item)
 
     def insert_into_db(self, item):
         try:
@@ -28,5 +39,5 @@ class NewsPipeline(object):
 
     def process_item(self, item, spider):
         self.insert_into_db(dict(item))
-
+        self.add_to_index(dict(item))
         return item

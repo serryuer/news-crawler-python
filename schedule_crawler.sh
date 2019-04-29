@@ -1,5 +1,5 @@
 #!/bin/bash
-log_path=log/`date +%Y-%m-%d-%H-%M-%S`.log
+log_path=~/ir/news-crawler/log/`date +%Y-%m-%d-%H-%M-%S`.log
 bin_path=~/ir/news-crawler/news/
 
 crawlerid=`ps aux | grep run.py | grep -v grep | awk '{print $2}'`

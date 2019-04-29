@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+from news.spiders.basespider import filter_str, combine_contents_list
+from news.spiders.basespider import BaseSpider
+from news.tools.pybloom import ScalableBloomFilter, BloomFilter
+from news.items import NewsItem
+from news.tools.timeconvert import DateFormat
 import scrapy
 
-from news.tools.timeconvert import DateFormat
-from news.items import NewsItem
-
-from news.tools.pybloom import ScalableBloomFilter, BloomFilter
-
-import os
-
-from news.spiders.basespider import BaseSpider
-from news.spiders.basespider import filter_str, combine_contents_list
 
 
 # 中国新闻网
@@ -43,18 +46,22 @@ class ChinaNewsSpider(BaseSpider):
         item = NewsItem()
         if len(response.xpath("//*[@id='cont_1_1_2']/div[4]/div[2]/text()").extract()) == 0:
             print("ye")
-        time_str = response.xpath("//*[@id='cont_1_1_2']/div[4]/div[2]/text()").extract()[0]
+        time_str = response.xpath(
+            "//*[@id='cont_1_1_2']/div[4]/div[2]/text()").extract()[0]
         time = DateFormat.convertStandardDateFormat(time_str)
         if time is None:
             return
         item['url'] = response.url
         item['publish_time'] = time
         item['source'] = 'ChinaNews'
-        contents = combine_contents_list(response.xpath('//*[@id="cont_1_1_2"]/div[6]/p/text()').extract())
+        contents = combine_contents_list(response.xpath(
+            '//*[@id="cont_1_1_2"]/div[6]/p/text()').extract())
         if not contents:
-            contents = combine_contents_list(response.xpath('//*[@id="cont_1_1_2"]/div[8]/p/text()').extract())
+            contents = combine_contents_list(response.xpath(
+                '//*[@id="cont_1_1_2"]/div[8]/p/text()').extract())
         item['contents'] = contents
-        title = filter_str(response.xpath("//*[@id='cont_1_1_2']/h1/text()").extract()[0])
+        title = filter_str(response.xpath(
+            "//*[@id='cont_1_1_2']/h1/text()").extract()[0])
         item['title'] = title
         return item
 
