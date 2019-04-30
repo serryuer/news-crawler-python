@@ -23,23 +23,16 @@ class NewsPipeline(object):
         self.date_format = "%Y-%m-%d %H:%M:%S"
         self.index = Index()
 
-    def is_invalid(self, item):
-        if item["url"] is None or item["title"] is None or\
-            item["content"] is None or item["title"] is None or\
-                item["publish_time"] is None:
-            return False
-        return True
 
     # 添加新闻到索引
     def add_to_index(self, item):
-        if self.is_invalid(item)
-            self.index.add_document(item)
+        self.index.add_document(item)
 
     def insert_into_db(self, item):
         try:
             sql = "insert into articles(title, url, body, publish_time, source_site) \
                     value ('%s', '%s', '%s', '%s', '%s')" \
-                  % (item['title'], item['url'], item['contents'], item['publish_time'], item['source'])
+                  % (item['title'], item['url'], item['content'], item['publish_time'], item['source'])
             self.cursor.execute(sql)
             self.db.commit()
         except Exception:

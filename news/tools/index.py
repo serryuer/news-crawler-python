@@ -4,9 +4,12 @@ from whoosh.fields import *
 from scrapy.conf import settings
 import os
 
+from whoosh import index
+
 import threading
 from jieba.analyse import ChineseAnalyzer
 
+# 单例模式实现的索引类
  
 def synchronized(func):
     func.__lock__ = threading.Lock()
@@ -23,6 +26,8 @@ class Index(object):
     ix = None
     instance = None
 
+
+
     @synchronized
     def __new__(cls, *args, **kwargs):
         """
@@ -33,9 +38,13 @@ class Index(object):
             analyzer = ChineseAnalyzer()
             schema = Schema(url=ID(stored=True), source=ID(stored=True), publish_time=DATETIME(stored=True),
                                 title=TEXT(stored=True, analyzer=analyzer), content=TEXT(stored=True, analyzer=analyzer))
-            if not os.path.exists(settings.get("INDEX_FILE_PATH")):
-                os.mkdir(settings.get("INDEX_FILE_PATH"))
-            cls.ix = create_in(settings.get("INDEX_FILE_PATH"), schema)
+            index_path = settings.get("INDEX_FILE_PATH")
+            if not os.path.exists(index_path):
+                os.mkdir(index_path)
+            if index.exists_in(index_path):
+                cls.ix = index.open_dir(index_path)
+            else:
+                cls.ix = create_in(index_path, schema)
         return cls.instance
     
     def __init__(self):

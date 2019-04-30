@@ -55,7 +55,12 @@ class BaseSpider(scrapy.Spider):
             for link in self.parse_home_page(response):
                 yield scrapy.Request(link, dont_filter=True)
         else:
-            yield self.parse_article_page(response)
+            item = self.parse_article_page(response)
+            if item["url"] is None or item["title"] is None or\
+                item["content"] is None or item["title"] is None or\
+                    item["publish_time"] is None:
+                pass
+            yield item
 
     # 爬虫结束时的回调函数
     def closed(self, reason):
