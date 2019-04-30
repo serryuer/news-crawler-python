@@ -12,5 +12,5 @@ class NewsItem(Item):
     url = Field()
     publish_time = Field()
     title = Field()
-    contents = Field()
+    content = Field()
     source = Field()

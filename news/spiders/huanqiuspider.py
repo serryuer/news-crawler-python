@@ -38,14 +38,14 @@ class HuanQiuSpider(BaseSpider):
         time = DateFormat.convertStandardDateFormat(time_str[0])
         if time is None:
             return
-        item['url'] = response.url
+        item['url'] = response.url.strip()
         item['publish_time'] = time
         item['source'] = 'XinHuaNet'
         contents = combine_contents_list(response.xpath('//div[@class="la_con"]/p/text()').extract())
-        item['contents'] = contents
+        item['content'] = contents.strip()
         title_str = response.xpath("//h1[@class='tle']/text()").extract()
         title = filter_str(title_str[0])
-        item['title'] = title
+        item['title'] = title.strip()
         return item
 
 

@@ -51,18 +51,18 @@ class ChinaNewsSpider(BaseSpider):
         time = DateFormat.convertStandardDateFormat(time_str)
         if time is None:
             return
-        item['url'] = response.url
+        item['url'] = response.url.strip()
         item['publish_time'] = time
         item['source'] = 'ChinaNews'
-        contents = combine_contents_list(response.xpath(
+        content = combine_contents_list(response.xpath(
             '//*[@id="cont_1_1_2"]/div[6]/p/text()').extract())
-        if not contents:
-            contents = combine_contents_list(response.xpath(
+        if not content:
+            content= combine_contents_list(response.xpath(
                 '//*[@id="cont_1_1_2"]/div[8]/p/text()').extract())
-        item['contents'] = contents
+        item['content'] = content.strip()
         title = filter_str(response.xpath(
             "//*[@id='cont_1_1_2']/h1/text()").extract()[0])
-        item['title'] = title
+        item['title'] = title.strip()
         return item
 
 

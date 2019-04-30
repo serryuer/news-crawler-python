@@ -38,13 +38,13 @@ class XinHuaSpider(BaseSpider):
         time = DateFormat.convertStandardDateFormat(time_str[0])
         if time is None:
             return
-        item['url'] = response.url
+        item['url'] = response.url.strip()
         item['publish_time'] = time
         item['source'] = 'XinHuaNet'
         contents = combine_contents_list(response.xpath('//*[@id="p-detail"]/p/text()').extract())
         if not contents:
             contents = combine_contents_list(response.xpath('//*[@id="p-detail"]/div[1]/p/text()').extract())
-        item['contents'] = contents
+        item['content'] = contents.strip()
         title_str = response.xpath("/html/body/div[2]/div[3]/div/div[1]/text()").extract()
         if len(title_str) == 0:
             title_str = response.xpath("/html/body/div[4]/div[2]/div[4]/div[2]/div/div[1]/text()").extract()
@@ -53,7 +53,7 @@ class XinHuaSpider(BaseSpider):
         if len(title_str) == 0:
             title_str = response.xpath("/html/body/div[3]/div[2]/div/div[1]/text()").extract()
         title = filter_str(title_str[0])
-        item['title'] = title
+        item['title'] = title.strip()
         return item
 
 

@@ -48,7 +48,7 @@ class Index(object):
             writer.add_document(url=item['url'], source=item['source'],
                             publish_time=datetime.datetime.strptime(
                                 item['publish_time'], self.date_format),
-                            title=item['title'], content=item['contents'])
+                            title=item['title'], content=item['content'])
             writer.commit()
         except Exception:
             pass

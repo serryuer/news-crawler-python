@@ -23,9 +23,17 @@ class NewsPipeline(object):
         self.date_format = "%Y-%m-%d %H:%M:%S"
         self.index = Index()
 
+    def is_invalid(self, item):
+        if item["url"] is None or item["title"] is None or\
+            item["content"] is None or item["title"] is None or\
+                item["publish_time"] is None:
+            return False
+        return True
+
     # 添加新闻到索引
     def add_to_index(self, item):
-        self.index.add_document(item)
+        if self.is_invalid(item)
+            self.index.add_document(item)
 
     def insert_into_db(self, item):
         try:
