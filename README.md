@@ -17,6 +17,10 @@ DB_USERNAME = "root"
 DB_PASSWD = "822104"
 DB_DATABASE = "spider"
 ```
+- 建库
+```
+source db.sql
+```
 
 - 安装anaconda
 ```
