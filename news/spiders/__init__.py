@@ -7,3 +7,4 @@ from news.spiders.chinanewsspider import ChinaNewsSpider
 from news.spiders.eastMoneyspider import EastMoneySpider
 from news.spiders.huanqiuspider import HuanQiuSpider
 from news.spiders.xinhuanetspider import XinHuaSpider
+from news.spiders.topbaidu import TopBaiduSpider
