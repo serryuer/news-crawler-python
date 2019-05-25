@@ -1,7 +1,10 @@
-# 索引文件
+*/index_files
 */index_files/*
+*/index2_files
+*/index2_files/*
 .idea/*
 .vscode/*
 log/*
 */bloom-filter-backup/*
+*/bloom-filter-backup
 */__pycache__
