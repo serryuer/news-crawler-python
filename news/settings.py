@@ -19,12 +19,13 @@ ITEM_PIPELINES = {'news.pipelines.NewsPipeline':100}
 # 数据库配置
 DB_IP = "localhost"
 DB_USERNAME = "root"
-DB_PASSWD = "822104"
+DB_PASSWD = "19961024"
 DB_DATABASE = "spider"
+
 
 # 索引存储位置配置
 INDEX_FILE_PATH = "index_files"
-
+INDEX2_FILE_PATH = "index2_files"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'quotesbot (+http://www.yourdomain.com)'

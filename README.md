@@ -14,7 +14,7 @@ sudo apt-get install mysql-server
 # 数据库配置
 DB_IP = "localhost"
 DB_USERNAME = "root"
-DB_PASSWD = "822104"
+DB_PASSWD = "19961024"
 DB_DATABASE = "spider"
 ```
 - 建库
@@ -36,7 +36,7 @@ conda create -n crawler python=3.6
 - 安装python依赖
 ```
 source activate crawler
-pip install -r requirements.txt
+conda install --yes --file requirements.txt
 ```
 
 - 构建文件结构
@@ -47,10 +47,10 @@ mkdir log
 ```
 
 ## 文件结构
+- bloom-filter-backup: 用于保存布隆过滤器的数据，实现增量采集
+- index_files: 存储索引文件
 - log： 日志文件夹
 - news： 采集主文件夹
-  - bloom-filter-backup: 用于保存布隆过滤器的数据，实现增量采集
-  - index_files: 存储索引文件
   - spiders： 每个网站的采集程序
     - basespider.py: 爬虫父类
     - **spider.py: 各网站爬虫实现

@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import sys, os
+sys.path.append(os.path.dirname(os.path.abspath('/Users/zhezhouli/Repository/news-crawler-python/news')))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath('/Users/zhezhouli/Repository/news-crawler-python/news'))))
 
 from news.spiders.basespider import *
 
@@ -9,9 +12,7 @@ class HuanQiuSpider(BaseSpider):
     start_urls = [
         'http://china.huanqiu.com/roll.html',
     ]
-
     filter_path = "bloom-filter-backup/huanqiu.bloom"
-
     def parse_home_page(self, response):
         content_list = response.xpath("//*[@id='panesT']/div[1]/div[1]/ul")
         links = []

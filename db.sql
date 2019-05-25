@@ -8,4 +8,4 @@ CREATE TABLE `articles` (
   `publish_time` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `source_site` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-)
+);

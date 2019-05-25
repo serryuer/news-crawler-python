@@ -61,7 +61,7 @@ class BaseSpider(scrapy.Spider):
                     item["publish_time"] is None:
                 pass
             yield item
-
+    
     # 爬虫结束时的回调函数
     def closed(self, reason):
         self.save_filter()
