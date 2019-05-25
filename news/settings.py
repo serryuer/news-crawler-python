@@ -19,7 +19,7 @@ ITEM_PIPELINES = {'news.pipelines.NewsPipeline':100}
 # 数据库配置
 DB_IP = "localhost"
 DB_USERNAME = "root"
-DB_PASSWD = "19961024"
+DB_PASSWD = "root"
 DB_DATABASE = "spider"
 
 
