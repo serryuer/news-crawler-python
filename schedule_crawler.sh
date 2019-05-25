@@ -2,7 +2,7 @@
 log_path=~/postGraduate/InformationRetrieve/IR_system/news-crawler-python/log/`date +%Y-%m-%d-%H-%M-%S`.log
 bin_path=~/postGraduate/InformationRetrieve/IR_system/news-crawler-python/news
 
-crawlerid=`ps aux | grep run.py | grep -v grep | awk '{print $2}'`
+crawlerid=`ps aux | grep run-crawler.py | grep -v grep | awk '{print $2}'`
 if [ -n "$crawlerid" ];then
     echo "crawler is running" >> $log_path
 else
