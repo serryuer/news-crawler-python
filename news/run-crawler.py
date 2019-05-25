@@ -8,12 +8,12 @@ from news.spiders import *
 from scrapy.utils.project import get_project_settings
 if __name__ == '__main__':
     process = CrawlerProcess(get_project_settings())  # 括号中可以添加参数
-    process.crawl(TopBaiduSpider)
+    #process.crawl(TopBaiduSpider)
     #process.crawl(ChinaNewsSpider)
-    # for spider in [ChinaNewsSpider, EastMoneySpider, HuanQiuSpider, XinHuaSpider, TopBaiduSpider]:
-    #     try:
-    #         process.crawl(spider)
-    #     except:
-    #         pass
+     for spider in [ChinaNewsSpider, EastMoneySpider, HuanQiuSpider, XinHuaSpider, TopBaiduSpider]:
+         try:
+             process.crawl(spider)
+         except:
+             pass
     
     process.start()
